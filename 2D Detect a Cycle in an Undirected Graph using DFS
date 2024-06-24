@@ -1,0 +1,39 @@
+class Solution {
+  public:
+    // Function to detect cycle in an undirected graph.
+    bool dfs(int node, int parentNode, int vis[], vector<int> adj[])
+    {
+        vis[node] = 1;
+        
+        for(auto neighbour : adj[node])
+        {
+            if(!vis[neighbour])
+            {
+                if(dfs(neighbour, node, vis, adj) == true) return true;
+            }
+            
+            else if(neighbour != parentNode)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    bool isCycle(int V, vector<int> adj[]) {
+        int vis[V] = {0};
+        
+        for(int i=0; i<V; i++)
+        {
+            if(!vis[i])
+            {
+                if(dfs(i,-1,vis,adj) == true) return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+//Expected Time Complexity: O(V + E)
+//Expected Space Complexity: O(V)
