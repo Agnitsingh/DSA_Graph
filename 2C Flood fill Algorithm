@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+    void dfs(int row, int col, int initial, int newColor, int dr[], int dc[], vector<vector<int>>& image, vector<vector<int>>& answer)
+    {
+        answer[row][col] = newColor;
+        int rowSize = image.size();
+        int colSize = image[0].size();
+        
+        for(int i=0; i<4; i++)
+        {
+            int nr = row + dr[i];
+            int nc = col + dc[i];
+            
+            if(nr>=0 && nr<rowSize && nc>=0 && nc<colSize && image[nr][nc] == initial && answer[nr][nc]!=newColor)
+            {
+                dfs(nr,nc, initial, newColor, dr, dc, image, answer);
+            }
+        }
+    }
+
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        vector<vector<int>> answer = image;
+        int initClr = image[sr][sc];
+        int dr[] = {-1,0,1,0};
+        int dc[] = {0,1,0,-1};
+        dfs(sr,sc,initClr,newColor,dr,dc,image, answer);
+        return answer;
+    }
+};
+
+// Expected Time Compelxity: O(n*m)  => O(Nodes) + O(Nodes*4) Worst Case..
+// Expected Space Complexity: O(n*m) => O(Nodes) + O(Nodes) (ANSWER + REC STACK)
