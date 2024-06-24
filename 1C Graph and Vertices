@@ -1,0 +1,8 @@
+class Solution {
+  public:
+    long long count(int n) {
+        long long p = ((n)*(n-1))/2;
+        return pow(2,p);
+    }
+};
+
