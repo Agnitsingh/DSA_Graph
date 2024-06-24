@@ -1,0 +1,49 @@
+class Solution {
+  public:
+    
+    void dfs(int start, vector<int> &visited, vector<int> adjList[])
+    {
+        visited[start] = 1;
+        for(auto it: adjList[start])
+        {
+            if(!visited[it])
+            {
+                dfs(it, visited, adjList);
+            }
+        }
+    }
+  
+  
+    int numProvinces(vector<vector<int>> adj, int V) {
+        vector<int> visited(V+1, 0);
+        
+        vector<int> adjList[V+1];
+        for(int i=0; i<V; i++)
+        {
+            for(int j=0; j<V; j++)
+            {
+                if(adj[i][j]==1 && i!=j)
+                {
+                    adjList[i+1].push_back(j+1);
+                    adjList[j+1].push_back(i+1);
+                }
+            }
+        }
+        
+        int count = 0;
+        
+        for(int i=1; i<=V; i++)
+        {
+            if(!visited[i])
+            {   
+                count = count+1;
+                dfs(i, visited, adjList);
+            }
+        }
+        
+        return count;
+    }
+};
+
+// SC - O(Nodes) + O(Nodes) (VISITED & RECURSION STACK)
+// TC - O(NODES) + C(NODES+EDGES) + O(NODES*NODES) (OUTER LOOP) (DFS) (CONVERSION)
