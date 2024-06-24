@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    // Function to return a list containing the DFS traversal of the graph.
+    
+    void fun(int start, vector<int> adj[], vector<int> &visited, vector<int>&dfs)
+    {
+        visited[start] = 1;
+        dfs.push_back(start);
+        
+        for(auto it: adj[start])
+        {
+            if(!visited[it])
+            {
+                fun(it, adj, visited, dfs);
+            }
+        }
+    }
+    
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+        vector<int> visited(V, 0);
+        vector<int> dfs;
+        int start = 0;
+        fun(start, adj, visited, dfs);
+        return dfs;
+    }
+};
+
+// Expected Time Complexity: O(V + E)
+// Expected Auxiliary Space: O(V)
