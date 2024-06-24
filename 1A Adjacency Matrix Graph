@@ -1,0 +1,51 @@
+// Adjacency Matrix Representation of Graph...
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+  int vertex;
+  int edges;
+  
+  cout<<"Enter number of vertices..."<<endl;
+  cin>>vertex;
+  cout<<"Enter number of edges..."<<endl;
+  cin>>edges;
+
+  vector<vector<int>> adjMat(vertex+1, vector<int>(vertex+1, 0));
+
+  cout<<endl<<"Initail 2D Matrix"<<endl;
+  for(int i=0; i<=vertex; i++)
+  {
+    for(int j=0; j<=vertex; j++)
+    {
+      cout<<adjMat[i][j]<<" ";
+    }
+    cout<<endl;
+  }
+
+  // Constructing Matrix from edges..
+
+  for(int i=0; i<edges; i++)
+  {
+    int c1, c2;
+    cin>>c1>>c2;
+
+    adjMat[c1][c2] = 1;
+    adjMat[c2][c1] = 1;
+  }
+
+  cout<<endl<<"Graph 2D Matrix"<<endl;
+  for(int i=0; i<=vertex; i++)
+  {
+    for(int j=0; j<=vertex; j++)
+    {
+      cout<<adjMat[i][j]<<" ";
+    }
+    cout<<endl;
+  }
+  return 0;
+}
+
+// Space (Vertex*Vertex) O(n*n)
