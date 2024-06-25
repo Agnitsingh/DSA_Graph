@@ -1,0 +1,60 @@
+class Solution {
+  public:
+    // Function to find the number of islands.
+    
+    void dfs(int row, int col, vector<vector<char>>& grid, vector<vector<int>> &visited, int changeRow[], int changeCol[])
+    {   
+        int n = grid.size();
+        int m = grid[0].size();
+        visited[row][col] = 1;
+        queue<pair<int,int>> q;
+        q.push({row,col});
+        
+        while(!q.empty())
+        {
+            int r = q.front().first;
+            int c = q.front().second;
+            q.pop();
+            
+            for(int i=0; i<8; i++)
+            {
+                int newRow = r + changeRow[i];
+                int newCol = c + changeCol[i];
+                
+                if(newRow>=0 && newRow<n && newCol>=0 && newCol<m && grid[newRow][newCol]=='1' && visited[newRow][newCol]==0)
+                {
+                    visited[newRow][newCol] = 1;
+                    q.push({newRow,newCol});
+                }
+            }
+        }
+    }
+    
+    
+    int numIslands(vector<vector<char>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        vector<vector<int>> visited(n, vector<int>(m,0));
+        int changeRow[] = {-1,-1,0,1,1,1,0,-1};
+        int changeCol[] = {0,1,1,1,0,-1,-1,-1};
+        int count = 0;
+        
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                if(grid[i][j]=='1' && visited[i][j] == 0)
+                {
+                    count = count+1;
+                    dfs(i,j,grid,visited,changeRow, changeCol);
+                }
+            }
+        }
+        
+        return count;
+    }
+};
+
+// Expected Time Complexity: O(n*m)
+// Expected Space Complexity: O(n*m)
