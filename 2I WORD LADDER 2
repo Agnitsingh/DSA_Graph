@@ -1,0 +1,64 @@
+class Solution {
+public:
+    vector<vector<string>> findSequences(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> st(wordList.begin(), wordList.end());
+        vector<string> levelUp;
+        queue<vector<string>> q;
+        q.push({beginWord});
+        levelUp.push_back(beginWord);
+        int level = 0;
+        
+        vector<vector<string>> answer;
+        
+        while(!q.empty())
+        {
+            vector<string> temp = q.front();
+            q.pop();
+            
+            if(temp.size() > level)
+            {
+                level = level + 1;
+                for(auto it: levelUp)
+                {
+                    st.erase(it);
+                }
+                levelUp.clear();
+            }
+            
+            string word = temp.back();
+            
+            if(word == endWord)
+            {
+                if(answer.size() == 0)
+                {
+                    answer.push_back(temp);
+                }
+                
+                else if(answer[0].size() == temp.size())
+                {
+                    answer.push_back(temp);
+                }
+            }
+            
+            for(int i=0; i<word.size(); i++)
+            {
+                char org = word[i];
+                for(char ch = 'a'; ch<='z'; ch++)
+                {
+                    word[i] = ch;
+                    
+                    if(st.count(word)>0)
+                    {
+                        temp.push_back(word);
+                        levelUp.push_back(word);
+                        q.push({temp});
+                        temp.pop_back();
+                    }
+                }
+                word[i] = org;
+            }
+            
+        }
+        return answer;
+    }
+};
