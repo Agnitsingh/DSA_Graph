@@ -1,0 +1,49 @@
+class Solution {
+  public:
+  
+    void dfs(int row, int col, vector<vector<int>>& grid, vector<vector<int>> &visited, int dR[], int dC[], vector<pair<int,int>> &temp, int r1, int c1)
+    {
+        visited[row][col] = 1;
+        int n = grid.size();
+        int m = grid[0].size();
+        temp.push_back({(row-r1),(col-c1)});
+        
+        for(int i=0; i<4; i++)
+        {
+            int nR = row + dR[i];
+            int nC = col + dC[i];
+            
+            if(nR>=0 && nR<n && nC>=0 && nC<m && grid[nR][nC] == 1 && visited[nR][nC] == 0)
+            {
+                dfs(nR,nC,grid,visited,dR,dC,temp,r1,c1);
+            }
+        }
+    }
+  
+    int countDistinctIslands(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>> visited(n, vector<int>(m,0));
+        int deltaRow[] = {-1,0,1,0};
+        int deltaCol[] = {0,1,0,-1};
+        set<vector<pair<int,int>>> st;
+        
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                if(grid[i][j] == 1 && visited[i][j] == 0)
+                {
+                    vector<pair<int,int>> temp;
+                    dfs(i,j,grid,visited,deltaRow,deltaCol,temp,i,j);
+                    st.insert(temp);
+                }
+            }
+        }
+        return st.size();
+    }
+    
+};
+
+// Expected Time Complexity: O(n * m)
+//Expected Space Complexity: O(n * m)
