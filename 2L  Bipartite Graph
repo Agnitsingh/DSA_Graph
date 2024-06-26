@@ -1,0 +1,45 @@
+class Solution {
+public:
+
+    bool check(int start, int col, vector<int>adj[], int color[])
+    {
+        color[start] = col;
+        
+        for(auto it: adj[start])
+        {
+            if(color[it] == -1)
+            {
+                if ((check(it, !col, adj, color))==false) return false;
+            }
+            
+            else if(color[it]==col)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+	bool isBipartite(int V, vector<int>adj[]){
+	    
+	    int visited[V];
+	    for(int i=0; i<V; i++)
+	    {
+	        visited[i] = -1;
+	    }
+	    
+	    for(int i=0; i<V; i++)
+	    {
+	        if(visited[i] == -1)
+	        {
+	            if(check(i, 0, adj, visited) == false) return false;
+	        }
+	    }
+	    return true;
+	}
+
+};
+
+// Expected Time Complexity: O(V + E)
+// Expected Space Complexity: O(V)
